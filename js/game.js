@@ -1,6 +1,6 @@
 
 var stage, w, h, loader;
-var background, sheep, ball, superball, score, scoreText, combo;
+var background, sheep, ball, superball, score, scoreText, combo, score_waiting, score_updateframes;
 
 function init() {
 
@@ -70,6 +70,8 @@ function handleComplete() {
 
     combo=0;
     score=0;
+    score_waiting=0;
+    score_updateframes=0;
     scoreText = new createjs.Text("分数: " + score, "bold 64px Hiragino Sans GB", "#FFF");
     scoreText.x = canvas.width / 20;
     scoreText.y = canvas.height / 20;
@@ -119,22 +121,33 @@ function move() {
             superball.visible = true;
             ball.visible = false;
             combo += 1;
-            score += 10 * combo;
+            score_waiting += 10 * combo;
         } else {
             ball.state = "up";
             ball.v = ball.initV;
             superball.visible = false;
             ball.visible = true; 
             combo = 0;   
-            score += 1;   
+            score_waiting += 1;   
         }
-        scoreText.text = "分数：" + score;
     }
+
     ball.y-=ball.v;
     superball.y=ball.y;
     ball.v-=ball.a;
     if (ball.v<0) {
         ball.state="down"
+    }
+
+    if (score_updateframes < 3) {
+        score_updateframes += 1;
+    } else {
+        score_updateframes = 0;
+        if (score_waiting>0) {
+            score += 1;
+            score_waiting -= 1;
+        }
+        scoreText.text = "分数：" + score;
     }
 
     if (sheep.state=="up" && sheep.y<=sheep.maxHeight) {
