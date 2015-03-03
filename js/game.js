@@ -13,9 +13,9 @@ function init() {
     
     createjs.Touch.enable(stage);
     
-    // grab canvas width and height for later calculations
     w = stage.canvas.width;
     h = stage.canvas.height;
+    hh = h*9/10;
 
     manifest = [
         {src: "sheep.png", id: "sheep"},
@@ -35,27 +35,26 @@ function handleComplete() {
 
     background = new createjs.Bitmap(loader.getResult("background"));
     background.setTransform(0,0, w / background.image.width, h / background.image.height);
-    background.alpha = 0.9;
 
     sheep = new createjs.Bitmap(loader.getResult("sheep"));
-    sheep.desireX=w/5;
+    sheep.desireX=w/3.5;
     sheep.desireY=sheep.desireX;
     sheep.scaleX=sheep.desireX / sheep.image.width;
     sheep.scaleY=sheep.scaleX;
     sheep.regX=sheep.image.width / 2;
     sheep.regY=sheep.image.height;
     sheep.x=w/2;
-    sheep.y=h-1;
+    sheep.y=hh-1;
 
     ball = new createjs.Bitmap(loader.getResult("ball1"));
-    ball.desireX=sheep.desireX/1.3;
+    ball.desireX=sheep.desireX*0.75;
     ball.desireY=ball.desireX;
     ball.scaleX=ball.desireX / ball.image.width;
     ball.scaleY=ball.scaleX;
     ball.regX=ball.image.width / 2;
     ball.regY=ball.image.height;
     ball.x=w/2;
-    ball.y=h/2;
+    ball.y=hh*2/3;
     ball.visible = true;
 
     superball = new createjs.Bitmap(loader.getResult("ball2"));
@@ -66,7 +65,7 @@ function handleComplete() {
     superball.regX=ball.image.width / 2;
     superball.regY=ball.image.height;
     superball.x=w/2;
-    superball.y=h/2;
+    superball.y=hh/2;
     superball.visible = false;
 
     createjs.Ticker.framerate = 60;
@@ -93,15 +92,15 @@ function gameover() {
 function setPhysics() {
     sheep.v = 0;
     sheep.state="up";
-    sheep.maxHeight = h - sheep.desireX/1.3;
-    sheep.criticalH = h - sheep.desireX/1.34;
-    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
+    sheep.maxHeight = hh - sheep.desireX * 0.4;
+    sheep.criticalH = hh - sheep.desireX * 0.08;
+    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 2.2);
     sheep.v=sheep.initV;
 
-    ball.maxHeight = h/2;
-    ball.initV = sheep.initV * 2.6;
-    ball.superV = ball.initV * 1.8;
-    ball.a = ball.initV * ball.initV / (2 * ball.maxHeight);
+    ball.maxHeight = hh/3;
+    ball.initV = sheep.initV * 2.5;
+    ball.superV = ball.initV * 2.2;
+    ball.a = 2 * ball.initV * ball.initV / (2 * ball.maxHeight);
     ball.v = -Math.sqrt(2*ball.a*(ball.maxHeight/2));
     ball.state = "down";
 }
@@ -115,26 +114,27 @@ function handleJump() {
 }
 
 function move() {
-    if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
-        if ((sheep.state == "down" || sheep.y>sheep.criticalH)&&sheep.state=="stay") {
+    if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY-20) {
+        if (sheep.state == "down" || sheep.state=="stay") {
             game_ended = true;
-            ball.vx = ball.initV / 8;
+            ball.vx = ball.initV / 3;
             ball.vy = ball.initV / 2;
-        }
-        if (sheep.y<=sheep.criticalH) {
-            ball.state="superUp";
-            ball.v=ball.superV*(1+Math.random()/5);
-            superball.visible = true;
-            ball.visible = false;
-            combo += 1;
-            score_waiting += 10 * combo;
         } else {
-            ball.state = "up";
-            ball.v = ball.initV;
-            superball.visible = false;
-            ball.visible = true; 
-            combo = 0;   
-            score_waiting += 1;   
+            if (sheep.y>sheep.criticalH) {
+                ball.state="superUp";
+                ball.v=ball.superV*(1+Math.random()/5);
+                superball.visible = true;
+                ball.visible = false;
+                combo += 1;
+                score_waiting += 10 * combo;
+            } else {
+                ball.state = "up";
+                ball.v = ball.initV;
+                superball.visible = false;
+                ball.visible = true; 
+                combo = 0;   
+                score_waiting += 1;   
+            }
         }
     }
 
@@ -149,7 +149,7 @@ function move() {
         sheep.state="down";
         sheep.v=-sheep.initV;
     }
-    if (sheep.state=="down" && sheep.y>=h-1) {
+    if (sheep.state=="down" && sheep.y>=hh) {
         sheep.state="stay";
         sheep.v=0;
     }    
@@ -157,7 +157,8 @@ function move() {
 }
 
 function drop() {
-    if (ball.y<h) {
+
+    if (ball.y<hh+w/10) {
         ball.y-=ball.vy;
         ball.x+=ball.vx;
         ball.vy-=ball.a;    
@@ -167,7 +168,7 @@ function drop() {
 }
 
 function updateScore() {
-    if (score_updateframes < 3) {
+    if (score_updateframes < 4) {
         score_updateframes += 1;
     } else {
         score_updateframes = 0;
