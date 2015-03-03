@@ -158,7 +158,7 @@ function gameover() {
 function setPhysics() {
     sheep.v = 0;
     sheep.state="up";
-    sheep.maxHeight = hh - sheep.desireX * 0.4;
+    sheep.maxHeight = hh - sheep.desireX * 0.3;
     sheep.criticalH = hh - sheep.desireX * 0.05;
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 2.2);
     sheep.v=sheep.initV;
