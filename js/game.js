@@ -1,7 +1,7 @@
 
 var stage, w, h, loader;
-var background, sheep, ball, superball;
-var game_ended, score, scoreText, combo, score_waiting, score_updateframes;
+var background, sheep, ball, superball, box;
+var game_ended, score, scoreText, combo, score_waiting, score_updateframes, comboText, boxText;
 
 function init() {
 
@@ -22,6 +22,7 @@ function init() {
         {src: "background.png", id: "background"},
         {src: "white1.png", id: "ball1"},
         {src: "white2.png", id: "ball2"},
+        {src: "box.png", id: "box"},
     ];
 
     loader = new createjs.LoadQueue(false);
@@ -58,14 +59,14 @@ function handleComplete() {
     ball.visible = true;
 
     superball = new createjs.Bitmap(loader.getResult("ball2"));
-    superball.desireX=sheep.desireX/1.5;
+    superball.desireX=ball.desireX;
     superball.desireY=ball.desireX;
-    superball.scaleX=ball.desireX / ball.image.width;
+    superball.scaleX=ball.scaleX;
     superball.scaleY=ball.scaleX;
-    superball.regX=ball.image.width / 2;
-    superball.regY=ball.image.height;
-    superball.x=w/2;
-    superball.y=hh/2;
+    superball.regX=ball.regX;
+    superball.regY=ball.regY;
+    superball.x=ball.x;
+    superball.y=ball.y;
     superball.visible = false;
 
     createjs.Ticker.framerate = 60;
@@ -83,14 +84,50 @@ function handleComplete() {
     comboText.y = h * 2 / 3;   
     comboText.visible = false; 
 
-    stage.addChild(background, sheep, ball, superball, scoreText, comboText);
+    box = new createjs.Bitmap(loader.getResult("box"));
+    box.desireX=w*4/5;
+    box.scaleX=box.desireX / box.image.width;
+    box.scaleY=box.scaleX;
+    box.desireY=box.scaleY * box.image.height;
+    box.regX=box.image.width / 2;
+    box.regY=box.image.height / 2;
+    box.x=w/2;
+    box.y=hh/2;
+    box.alpha=0.9;
+    box.visible = false;
+
+    boxText = new createjs.Text("你顶元宵的水平已经\n\n    ", "40px Hiragino Sans GB", "#000");
+    boxText.x=box.x-box.image.width * 6 / 10;
+    boxText.y=box.y-box.image.height / 2;    
+    boxText.visible = false;   
+
+    stage.addChild(background, sheep, ball, superball, scoreText, comboText, box, boxText);
     stage.addEventListener("stagemousedown", handleJump);
     
     createjs.Ticker.addEventListener("tick", tick);
 }
 
 function gameover() {
-    location.reload();
+    score=1000;
+    var t = "你能让元宵飞出屏幕吗";
+    if (score>100) {
+        t = "顶得漂亮";
+    }
+    if (score>300) {
+        t = "你顶元宵的功力已经略有小成";
+    }
+    if (score>600) {
+        t = "你顶元宵的功力已经炉火纯青";
+    }
+    if (score>1000) {
+        t = "我打赌你在好友里一定是顶得最高的";
+    }
+    if (score>5000) {
+        t = "中国足球未来的希望！";
+    }    
+    boxText.text = t+"\n\n去看看露馅的元宵里面藏了什么吧";
+    box.visible = true;
+    boxText.visible = true;   
 }
 
 function setPhysics() {
