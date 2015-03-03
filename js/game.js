@@ -1,13 +1,13 @@
 
 var stage, w, h, loader;
-var background, sheep, ball, vball1, vball2, g;
+var background, sheep, ball, superball;
 
 function init() {
 
     canvas = document.getElementById("easel");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-    
+
     stage = new createjs.Stage("easel");
     
     createjs.Touch.enable(stage);
