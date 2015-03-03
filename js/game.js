@@ -7,13 +7,7 @@ function init() {
     canvas = document.getElementById("easel");
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
-
-    if ('addEventListener' in document) {
-        document.addEventListener('DOMContentLoaded', function() {
-            FastClick.attach(document.body);
-        }, false);
-    }
-
+    
     stage = new createjs.Stage("easel");
     
     createjs.Touch.enable(stage);
