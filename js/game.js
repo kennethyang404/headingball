@@ -128,12 +128,12 @@ function gameover() {
     tryAgainButton = new createjs.Shape();
     tryAgainButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x-box.image.width/2, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
 
-    tryAgainButton.addEventListener("click", function(event) { Location.reload(); })  
+    tryAgainButton.addEventListener("mousedown", function(event) { Location.reload(); })  
 
     redirectButton = new createjs.Shape();
     redirectButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
     
-    redirectButton.addEventListener("click", function(event) { window.location.replace("http://www.google.com"); })  
+    redirectButton.addEventListener("mousedown", function(event) { window.location.replace("http://www.google.com"); })  
 
     stage.addChild(box, boxText, tryAgainButton, redirectButton);
 }
