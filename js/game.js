@@ -61,17 +61,19 @@ function handleComplete() {
 }
 
 function gameover() {
-  
+    window.alert("Game Over.");
 }
 
 function setPhysics() {
     sheep.v = 0;
     sheep.state = "stay";
     sheep.maxHeight = h - sheep.desireX/1.3;
+    sheep.criticalH = h - sheep.desireX/1.5;
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
 
     ball.maxHeight = h/1.8;
     ball.initV = sheep.initV * 2.5;
+    ball.superV = ball.initV * 3;
     ball.a = ball.initV * ball.initV / (2 * ball.maxHeight);
     ball.v = -Math.sqrt(2*ball.a*(ball.maxHeight/2));
     ball.maxHeight += sheep.desireY;
@@ -88,8 +90,16 @@ function handleJump() {
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
-        ball.state="up";
-        ball.v=ball.initV;
+        if (sheep.state == "down") {
+            gameover();
+        }
+        if (sheep.y<=sheep.criticalH) {
+            ball.state="superUp";
+            ball.v=ball.superV;
+        } else {
+            ball.state="up";
+            ball.v=ball.initV;
+        }
     }
     ball.y-=ball.v;
     ball.v-=ball.a;
