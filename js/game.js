@@ -137,7 +137,7 @@ function gameover() {
     tryAgainButton.regY=tryAgainButton.image.height / 2;
     tryAgainButton.x=box.x-box.image.width/3;
     tryAgainButton.y=box.y+box.image.height/3;    
-    tryAgainButton.addEventListener("click", function(event) { window.alert("!!!"); }); 
+    tryAgainButton.addEventListener("click", function(event) { location.reload(); }); 
 
     redirectButton = new createjs.Bitmap(loader.getResult("button2"));
     redirectButton.desireX=box.desireX/3;
