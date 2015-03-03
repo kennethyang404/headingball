@@ -1,7 +1,7 @@
 
 var stage, w, h, loader;
 var background, sheep, ball, superball;
-var score, scoreText, combo, score_waiting, score_updateframes;
+var game_ended, score, scoreText, combo, score_waiting, score_updateframes;
 
 function init() {
 
@@ -30,6 +30,9 @@ function init() {
 }
 
 function handleComplete() {
+
+    game_ended = false;
+
     background = new createjs.Bitmap(loader.getResult("background"));
     background.setTransform(0,0, w / background.image.width, h / background.image.height);
     background.alpha = 0.9;
@@ -95,7 +98,6 @@ function setPhysics() {
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
     sheep.v=sheep.initV;
 
-
     ball.maxHeight = h/1.8;
     ball.initV = sheep.initV * 2.5;
     ball.superV = ball.initV * 1.5;
@@ -110,13 +112,15 @@ function handleJump() {
     if (sheep.state=="stay") {
         sheep.state="up";
         sheep.v=sheep.initV;
-    }
+    } 
 }
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
         if ((sheep.state == "down" || sheep.y>sheep.criticalH)&&sheep.state=="stay") {
-            gameover();
+            game_ended = true;
+            ball.vx = ball.initV / 8;
+            ball.vy = ball.initV / 2;
         }
         if (sheep.y<=sheep.criticalH) {
             ball.state="superUp";
@@ -142,17 +146,6 @@ function move() {
         ball.state="down"
     }
 
-    if (score_updateframes < 3) {
-        score_updateframes += 1;
-    } else {
-        score_updateframes = 0;
-        if (score_waiting>0) {
-            score += 1;
-            score_waiting -= 1;
-        }
-        scoreText.text = "分数：" + score;
-    }
-
     if (sheep.state=="up" && sheep.y<=sheep.maxHeight) {
         sheep.state="down";
         sheep.v=-sheep.initV;
@@ -164,7 +157,38 @@ function move() {
     sheep.y-=sheep.v;
 }
 
+function drop() {
+    if (ball.y<h) {
+        ball.y-=ball.vy;
+        ball.x+=ball.vx;
+        ball.vy-=ball.a;    
+    } else {
+        gameover();
+    }
+}
+
+function updateScore() {
+    if (score_updateframes < 3) {
+        score_updateframes += 1;
+    } else {
+        score_updateframes = 0;
+        if (score_waiting>0) {
+            score += 1;
+            score_waiting -= 1;
+        }
+        scoreText.text = "分数：" + score;
+    }    
+}
+
 function tick(event) {
-    move();
+
+    updateScore();
+
+    if (! game_ended) {
+        move();
+    } else {
+        drop();
+    }
+
     stage.update();
 }
