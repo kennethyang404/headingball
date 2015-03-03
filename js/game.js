@@ -82,32 +82,16 @@ function handleComplete() {
     comboText = new createjs.Text("哇~", "100px Hiragino Sans GB", "#FFEFC2");
     comboText.x = w * 2 / 3;
     comboText.y = h * 2 / 3;   
-    comboText.visible = false; 
+    comboText.visible = false;   
 
-    box = new createjs.Bitmap(loader.getResult("box"));
-    box.desireX=w*4/5;
-    box.scaleX=box.desireX / box.image.width;
-    box.scaleY=box.scaleX;
-    box.desireY=box.scaleY * box.image.height;
-    box.regX=box.image.width / 2;
-    box.regY=box.image.height / 2;
-    box.x=w/2;
-    box.y=hh/2;
-    box.alpha=0.9;
-    box.visible = false;
-
-    boxText = new createjs.Text("你顶元宵的水平已经\n\n    ", "40px Hiragino Sans GB", "#000");
-    boxText.x=box.x-box.image.width * 6 / 10;
-    boxText.y=box.y-box.image.height / 2;    
-    boxText.visible = false;   
-
-    stage.addChild(background, sheep, ball, superball, scoreText, comboText, box, boxText);
+    stage.addChild(background, sheep, ball, superball, scoreText, comboText);
     stage.addEventListener("stagemousedown", handleJump);
     
     createjs.Ticker.addEventListener("tick", tick);
 }
 
 function gameover() {
+
     score=1000;
     var t = "你能让元宵飞出屏幕吗";
     if (score>100) {
@@ -125,9 +109,29 @@ function gameover() {
     if (score>5000) {
         t = "中国足球未来的希望！";
     }    
-    boxText.text = t+"\n\n去看看露馅的元宵里面藏了什么吧";
-    box.visible = true;
-    boxText.visible = true;   
+
+    box = new createjs.Bitmap(loader.getResult("box"));
+    box.desireX=w*4/5;
+    box.scaleX=box.desireX / box.image.width;
+    box.scaleY=box.scaleX;
+    box.desireY=box.scaleY * box.image.height;
+    box.regX=box.image.width / 2;
+    box.regY=box.image.height / 2;
+    box.x=w/2;
+    box.y=hh/2;
+    box.alpha=0.9;
+
+    boxText = new createjs.Text(t+"\n\n去看看露馅的元宵里面藏了什么吧", "40px Hiragino Sans GB", "#000");
+    boxText.x=box.x-box.image.width * 6 / 10;
+    boxText.y=box.y-box.image.height / 2;    
+    
+    tryAgainButton = new createjs.Shape();
+    tryAgainButton.graphics.beginFill("#E2F89C").drawRoundRect(w/2-box.image.width/3, h/2, box.image.width/4, box.image.width/6, 3);
+
+    redirectButton = new createjs.Shape();
+    redirectButton.graphics.beginFill("#D5E1A3").drawRoundRect(w/2+box.image.width/4, h/2, box.image.width/4, box.image.width/6, 3);
+
+    stage.addChild(box, boxText, tryAgainButton, redirectButton);
 }
 
 function setPhysics() {
