@@ -55,7 +55,7 @@ function handleComplete() {
     ball.regX=ball.image.width / 2;
     ball.regY=ball.image.height;
     ball.x=w/2;
-    ball.y=h/3;
+    ball.y=h/2;
     ball.visible = true;
 
     superball = new createjs.Bitmap(loader.getResult("ball2"));
@@ -66,7 +66,7 @@ function handleComplete() {
     superball.regX=ball.image.width / 2;
     superball.regY=ball.image.height;
     superball.x=w/2;
-    superball.y=h/3;
+    superball.y=h/2;
     superball.visible = false;
 
     createjs.Ticker.framerate = 60;
