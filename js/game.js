@@ -50,11 +50,23 @@ function handleComplete() {
     ball.regY=ball.image.height;
     ball.x=w/2;
     ball.y=h/2;
+    ball.visible = true;
+
+    superball = new createjs.Bitmap(loader.getResult("ball2"));
+    superball.desireX=sheep.desireX/1.5;
+    superball.desireY=ball.desireX;
+    superball.scaleX=ball.desireX / ball.image.width;
+    superball.scaleY=ball.scaleX;
+    superball.regX=ball.image.width / 2;
+    superball.regY=ball.image.height;
+    superball.x=w/2;
+    superball.y=h/2;
+    superball.visible = false;
 
     createjs.Ticker.framerate = 60;
     setPhysics();
 
-    stage.addChild(background, sheep, ball);
+    stage.addChild(background, sheep, ball, superball);
     stage.addEventListener("stagemousedown", handleJump);
     
     createjs.Ticker.addEventListener("tick", tick);
@@ -96,12 +108,17 @@ function move() {
         if (sheep.y<=sheep.criticalH) {
             ball.state="superUp";
             ball.v=ball.superV;
+            superball.visible = true;
+            ball.visible = false;
         } else {
             ball.state="up";
             ball.v=ball.initV;
+            superball.visible = false;
+            ball.visible = true;            
         }
     }
     ball.y-=ball.v;
+    superball.y=ball.y;
     ball.v-=ball.a;
     if (ball.v<0) {
         ball.state="down"
