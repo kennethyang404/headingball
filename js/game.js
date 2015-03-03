@@ -68,7 +68,14 @@ function setPhysics() {
     sheep.v = 0;
     sheep.state = "stay";
     sheep.maxHeight = h - sheep.desireX/1.3;
-    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 2.4);
+    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
+
+    ball.maxHeight = h/1.8;
+    ball.initV = sheep.initV * 2.2;
+    ball.a = ball.initV * ball.initV / (2 * ball.maxHeight);
+    ball.v = -Math.sqrt(2*ball.a*(ball.maxHeight/2));
+    ball.maxHeight += sheep.desireY;
+    ball.state = "down";
 }
 
 
@@ -80,12 +87,21 @@ function handleJump() {
 }
 
 function move() {
-    console.log(h, sheep.y, sheep.maxHeight, sheep.v, sheep.image.height, sheep.image.width);
-    if (sheep.state=="up" & sheep.y<=sheep.maxHeight) {
+    if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
+        ball.state="up";
+        ball.v=ball.initV;
+    }
+    ball.y-=ball.v;
+    ball.v-=ball.a;
+    if (ball.v<0) {
+        ball.state="down"
+    }
+
+    if (sheep.state=="up" && sheep.y<=sheep.maxHeight) {
         sheep.state="down";
         sheep.v=-sheep.initV;
     }
-    if (sheep.state=="down" & sheep.y>=h-1) {
+    if (sheep.state=="down" && sheep.y>=h-1) {
         sheep.state="stay";
         sheep.v=0;
     }    
