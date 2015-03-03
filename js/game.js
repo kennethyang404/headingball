@@ -87,7 +87,7 @@ function handleComplete() {
 }
 
 function gameover() {
-    window.alert("Game Over.");
+    location.reload();
 }
 
 function setPhysics() {
