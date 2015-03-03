@@ -160,6 +160,7 @@ function handleJump() {
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY-20) {
+        ball.y=sheep.y-sheep.desireY;
         if (sheep.state == "down" || sheep.state=="stay") {
             comboText.visible = false;
             game_ended = true;
