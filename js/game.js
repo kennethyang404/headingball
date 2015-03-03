@@ -15,7 +15,9 @@ function init() {
     }
 
     stage = new createjs.Stage("easel");
-
+    
+    createjs.Touch.enable(stage);
+    
     // grab canvas width and height for later calculations
     w = stage.canvas.width;
     h = stage.canvas.height;
