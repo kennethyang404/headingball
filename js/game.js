@@ -159,7 +159,7 @@ function setPhysics() {
     sheep.v = 0;
     sheep.state="up";
     sheep.maxHeight = hh - sheep.desireX * 0.4;
-    sheep.criticalH = hh - sheep.desireX * 0.05;
+    sheep.criticalH = hh - sheep.desireX * 0.04;
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 2.2);
     sheep.v=sheep.initV;
 
