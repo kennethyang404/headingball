@@ -70,7 +70,7 @@ function handleComplete() {
 
     combo=0;
     score=0;
-    scoreText = new createjs.Text("分数: " + score, "36px Arial", "#FFF");
+    scoreText = new createjs.Text("分数: " + score, "64px Monaco", "#FFF");
     scoreText.x = canvas.width / 20;
     scoreText.y = canvas.height / 20;
 
