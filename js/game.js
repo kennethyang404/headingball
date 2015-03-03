@@ -1,6 +1,7 @@
 
 var stage, w, h, loader;
-var background, sheep, ball, superball, score, scoreText, combo, score_waiting, score_updateframes;
+var background, sheep, ball, superball;
+var score, scoreText, combo, score_waiting, score_updateframes;
 
 function init() {
 
@@ -88,10 +89,12 @@ function gameover() {
 
 function setPhysics() {
     sheep.v = 0;
-    sheep.state = "stay";
+    sheep.state="up";
     sheep.maxHeight = h - sheep.desireX/1.3;
     sheep.criticalH = h - sheep.desireX/1.4;
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
+    sheep.v=sheep.initV;
+
 
     ball.maxHeight = h/1.8;
     ball.initV = sheep.initV * 2.5;
