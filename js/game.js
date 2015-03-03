@@ -51,7 +51,7 @@ function handleComplete() {
     ball.x=w/2;
     ball.y=h/2;
 
-    createjs.Ticker.framerate = 30;
+    createjs.Ticker.framerate = 60;
     setPhysics();
 
     stage.addChild(background, sheep, ball);
