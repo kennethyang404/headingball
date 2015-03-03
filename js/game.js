@@ -1,7 +1,7 @@
 
 var stage, w, h, loader;
 var background, sheep, ball, superball, box;
-var game_ended, dropped, score, scoreText, combo, score_waiting, score_updateframes, comboText, boxText;
+var game_ended, dropped, done, score, scoreText, combo, score_waiting, score_updateframes, comboText, boxText;
 
 function init() {
 
@@ -36,6 +36,7 @@ function handleComplete() {
 
     game_ended = false;
     dropped = false;
+    done = false;
 
     background = new createjs.Bitmap(loader.getResult("background"));
     background.setTransform(0,0, w / background.image.width, h / background.image.height);
@@ -150,6 +151,8 @@ function gameover() {
     redirectButton.addEventListener("click", function(event) { window.location.replace("http://www.google.com"); });  
 
     stage.addChild(box, boxText, tryAgainButton, redirectButton);
+
+    done = true;
 }
 
 function setPhysics() {
@@ -260,7 +263,10 @@ function tick(event) {
             drop();
             stage.update();
         } else {
-            gameover();
+            if (! done) {
+                gameover();
+                stage.update();
+            }
         }
     }
 }
