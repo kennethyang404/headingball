@@ -75,11 +75,15 @@ function handleComplete() {
     score=0;
     score_waiting=0;
     score_updateframes=0;
-    scoreText = new createjs.Text("分数: " + score, "bold 64px Hiragino Sans GB", "#FFF");
-    scoreText.x = canvas.width / 20;
-    scoreText.y = canvas.height / 20;
+    scoreText = new createjs.Text("分数: " + score, "bold 64px Hiragino Sans GB", "#EEF0F2");
+    scoreText.x = w / 20;
+    scoreText.y = h / 20;
+    comboText = new createjs.Text("哇~", "100px Hiragino Sans GB", "#FFEFC2");
+    comboText.x = w * 2 / 3;
+    comboText.y = h * 2 / 3;   
+    comboText.visible = false; 
 
-    stage.addChild(background, sheep, ball, superball, scoreText);
+    stage.addChild(background, sheep, ball, superball, scoreText, comboText);
     stage.addEventListener("stagemousedown", handleJump);
     
     createjs.Ticker.addEventListener("tick", tick);
@@ -93,7 +97,7 @@ function setPhysics() {
     sheep.v = 0;
     sheep.state="up";
     sheep.maxHeight = hh - sheep.desireX * 0.4;
-    sheep.criticalH = hh - sheep.desireX * 0.08;
+    sheep.criticalH = hh - sheep.desireX * 0.05;
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 2.2);
     sheep.v=sheep.initV;
 
@@ -116,6 +120,7 @@ function handleJump() {
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY-20) {
         if (sheep.state == "down" || sheep.state=="stay") {
+            comboText.visible = false;
             game_ended = true;
             ball.vx = ball.initV / 3;
             ball.vy = ball.initV / 2;
@@ -127,6 +132,7 @@ function move() {
                 ball.visible = false;
                 combo += 1;
                 score_waiting += 10 * combo;
+                comboText.visible = true; 
             } else {
                 ball.state = "up";
                 ball.v = ball.initV;
@@ -134,6 +140,7 @@ function move() {
                 ball.visible = true; 
                 combo = 0;   
                 score_waiting += 1;   
+                comboText.visible = false; 
             }
         }
     }
@@ -177,7 +184,7 @@ function updateScore() {
             score_waiting -= 1;
         }
         scoreText.text = "分数：" + score;
-    }    
+    }         
 }
 
 function tick(event) {
