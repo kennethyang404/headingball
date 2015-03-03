@@ -63,7 +63,7 @@ function handleComplete() {
     superball.y=h/2;
     superball.visible = false;
 
-    createjs.Ticker.framerate = 60;
+    createjs.Ticker.framerate = 30;
     setPhysics();
 
     stage.addChild(background, sheep, ball, superball);
