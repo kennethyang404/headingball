@@ -8,6 +8,12 @@ function init() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    if ('addEventListener' in document) {
+        document.addEventListener('DOMContentLoaded', function() {
+            FastClick.attach(document.body);
+        }, false);
+    }
+
     stage = new createjs.Stage("easel");
 
     // grab canvas width and height for later calculations
