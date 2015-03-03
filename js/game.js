@@ -117,7 +117,7 @@ function handleJump() {
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
-        if ((sheep.state == "down" || sheep.y>sheep.criticalH)&&sheep.state=="stay") {
+        if (sheep.state == "down" || sheep.state=="stay") {
             game_ended = true;
             ball.vx = ball.initV / 8;
             ball.vy = ball.initV / 2;
