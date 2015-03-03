@@ -23,6 +23,8 @@ function init() {
         {src: "white1.png", id: "ball1"},
         {src: "white2.png", id: "ball2"},
         {src: "box.png", id: "box"},
+        {src: "button1.png", id: "button1"},
+        {src: "button2.png", id: "button2"},
     ];
 
     loader = new createjs.LoadQueue(false);
@@ -92,7 +94,6 @@ function handleComplete() {
 
 function gameover() {
 
-    score=1000;
     var t = "你能让元宵飞出屏幕吗";
     if (score>100) {
         t = "顶得漂亮";
@@ -125,15 +126,27 @@ function gameover() {
     boxText.x=box.x-box.image.width * 6 / 10;
     boxText.y=box.y-box.image.height / 2;    
     
-    tryAgainButton = new createjs.Shape();
-    tryAgainButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x-box.image.width/2, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
+    tryAgainButton = new createjs.Bitmap(loader.getResult("button1"));
+    tryAgainButton.desireX=box.desireX/3;
+    tryAgainButton.scaleX=tryAgainButton.desireX / tryAgainButton.image.width;
+    tryAgainButton.scaleY=tryAgainButton.scaleX;
+    tryAgainButton.desireY=tryAgainButton.scaleY * tryAgainButton.image.height;
+    tryAgainButton.regX=tryAgainButton.image.width / 2;
+    tryAgainButton.regY=tryAgainButton.image.height / 2;
+    tryAgainButton.x=box.x-box.image.width/3;
+    tryAgainButton.y=box.y+box.image.height/3;    
+    tryAgainButton.addEventListener("click", function(event) { window.alert("!!!"); }); 
 
-    tryAgainButton.addEventListener("mousedown", function(event) { Location.reload(); })  
-
-    redirectButton = new createjs.Shape();
-    redirectButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
-    
-    redirectButton.addEventListener("mousedown", function(event) { window.location.replace("http://www.google.com"); })  
+    redirectButton = new createjs.Bitmap(loader.getResult("button2"));
+    redirectButton.desireX=box.desireX/3;
+    redirectButton.scaleX=redirectButton.desireX / redirectButton.image.width;
+    redirectButton.scaleY=redirectButton.scaleX;
+    redirectButton.desireY=redirectButton.scaleY * redirectButton.image.height;
+    redirectButton.regX=redirectButton.image.width / 2;
+    redirectButton.regY=redirectButton.image.height / 2;
+    redirectButton.x=box.x+box.image.width/3;
+    redirectButton.y=box.y+box.image.height/3;     
+    redirectButton.addEventListener("click", function(event) { window.location.replace("http://www.google.com"); });  
 
     stage.addChild(box, boxText, tryAgainButton, redirectButton);
 }
