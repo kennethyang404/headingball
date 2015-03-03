@@ -55,7 +55,7 @@ function handleComplete() {
     ball.regX=ball.image.width / 2;
     ball.regY=ball.image.height;
     ball.x=w/2;
-    ball.y=h*2/3;
+    ball.y=h/2;
     ball.visible = true;
 
     superball = new createjs.Bitmap(loader.getResult("ball2"));
@@ -65,8 +65,8 @@ function handleComplete() {
     superball.scaleY=ball.scaleX;
     superball.regX=ball.image.width / 2;
     superball.regY=ball.image.height;
-    superball.x=ball.x;
-    superball.y=ball.y;
+    superball.x=w/2;
+    superball.y=h/2;
     superball.visible = false;
 
     createjs.Ticker.framerate = 60;
@@ -87,7 +87,7 @@ function handleComplete() {
 }
 
 function gameover() {
-    location.reload();
+    window.alert("Game Over.");
 }
 
 function setPhysics() {
@@ -95,7 +95,7 @@ function setPhysics() {
     sheep.state="up";
     sheep.maxHeight = h - sheep.desireX/1.3;
     sheep.criticalH = h - sheep.desireX/1.4;
-    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1);
+    sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
     sheep.v=sheep.initV;
 
     ball.maxHeight = h/1.8;
@@ -117,7 +117,7 @@ function handleJump() {
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY) {
-        if (sheep.state == "down" || sheep.state=="stay") {
+        if ((sheep.state == "down" || sheep.y>sheep.criticalH)&&sheep.state=="stay") {
             game_ended = true;
             ball.vx = ball.initV / 8;
             ball.vy = ball.initV / 2;
