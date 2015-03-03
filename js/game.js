@@ -248,7 +248,8 @@ function updateScore() {
             score_waiting -= 1;
         }
         scoreText.text = "分数：" + score;
-    }         
+    }
+    comboText.text = "哇"+Array(combo + 1).join("~")
 }
 
 function tick(event) {
