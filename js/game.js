@@ -71,7 +71,7 @@ function setPhysics() {
     sheep.initV = sheep.maxHeight / (createjs.Ticker.framerate * 1.2);
 
     ball.maxHeight = h/1.8;
-    ball.initV = sheep.initV * 2.2;
+    ball.initV = sheep.initV * 2.5;
     ball.a = ball.initV * ball.initV / (2 * ball.maxHeight);
     ball.v = -Math.sqrt(2*ball.a*(ball.maxHeight/2));
     ball.maxHeight += sheep.desireY;
