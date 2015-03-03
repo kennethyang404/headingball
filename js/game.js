@@ -37,7 +37,7 @@ function handleComplete() {
     background.setTransform(0,0, w / background.image.width, h / background.image.height);
 
     sheep = new createjs.Bitmap(loader.getResult("sheep"));
-    sheep.desireX=w/3.5;
+    sheep.desireX=w/4;
     sheep.desireY=sheep.desireX;
     sheep.scaleX=sheep.desireX / sheep.image.width;
     sheep.scaleY=sheep.scaleX;
