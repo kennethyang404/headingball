@@ -126,10 +126,14 @@ function gameover() {
     boxText.y=box.y-box.image.height / 2;    
     
     tryAgainButton = new createjs.Shape();
-    tryAgainButton.graphics.beginFill("#E2F89C").drawRoundRect(w/2-box.image.width/3, h/2, box.image.width/4, box.image.width/6, 3);
+    tryAgainButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x-box.image.width/2, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
+
+    tryAgainButton.addEventListener("click", function(event) { Location.reload(); })  
 
     redirectButton = new createjs.Shape();
-    redirectButton.graphics.beginFill("#D5E1A3").drawRoundRect(w/2+box.image.width/4, h/2, box.image.width/4, box.image.width/6, 3);
+    redirectButton.graphics.beginFill("#E2F89C").drawRoundRect(box.x, (h+hh)/4, box.image.width/3, box.image.width/7, 20);
+    
+    redirectButton.addEventListener("click", function(event) { window.location.replace("http://www.google.com"); })  
 
     stage.addChild(box, boxText, tryAgainButton, redirectButton);
 }
@@ -160,12 +164,14 @@ function handleJump() {
 
 function move() {
     if (ball.state=="down" && ball.y>=sheep.y-sheep.desireY-20) {
-        ball.y=sheep.y-sheep.desireY-20;
+        ball.y=sheep.y-sheep.desireY;
         if (sheep.state == "down" || sheep.state=="stay") {
             comboText.visible = false;
             game_ended = true;
             ball.vx = ball.initV / 3;
             ball.vy = ball.initV / 2;
+            superball.visible = false;
+            ball.visible = true;
         } else {
             if (sheep.y>sheep.criticalH) {
                 ball.state="superUp";
@@ -206,8 +212,7 @@ function move() {
 }
 
 function drop() {
-
-    if (ball.y<hh+w/10) {
+    if (ball.y<sheep.y+20) {
         ball.y-=ball.vy;
         ball.x+=ball.vx;
         ball.vy-=ball.a;    
