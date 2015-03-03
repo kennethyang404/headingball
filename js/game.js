@@ -1,6 +1,6 @@
 
 var stage, w, h, loader;
-var background, sheep, ball, superball;
+var background, sheep, ball, superball, score, scoreText, combo;
 
 function init() {
 
@@ -44,7 +44,7 @@ function handleComplete() {
     sheep.y=h-1;
 
     ball = new createjs.Bitmap(loader.getResult("ball1"));
-    ball.desireX=sheep.desireX/1.6;
+    ball.desireX=sheep.desireX/1.5;
     ball.desireY=ball.desireX;
     ball.scaleX=ball.desireX / ball.image.width;
     ball.scaleY=ball.scaleX;
@@ -68,7 +68,13 @@ function handleComplete() {
     createjs.Ticker.framerate = 60;
     setPhysics();
 
-    stage.addChild(background, sheep, ball, superball);
+    combo=0;
+    score=0;
+    scoreText = new createjs.Text("分数: " + score, "36px Arial", "#FFF");
+    scoreText.x = canvas.width / 20;
+    scoreText.y = canvas.height / 20;
+
+    stage.addChild(background, sheep, ball, superball, scoreText);
     stage.addEventListener("stagemousedown", handleJump);
     
     createjs.Ticker.addEventListener("tick", tick);
@@ -112,12 +118,17 @@ function move() {
             ball.v=ball.superV;
             superball.visible = true;
             ball.visible = false;
+            combo += 1;
+            score += 10 * combo;
         } else {
-            ball.state="up";
-            ball.v=ball.initV;
+            ball.state = "up";
+            ball.v = ball.initV;
             superball.visible = false;
-            ball.visible = true;            
+            ball.visible = true; 
+            combo = 0;   
+            score += 1;   
         }
+        scoreText.text = "分数：" + score;
     }
     ball.y-=ball.v;
     superball.y=ball.y;
