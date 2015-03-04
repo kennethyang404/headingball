@@ -94,21 +94,60 @@ function handleComplete() {
     createjs.Ticker.addEventListener("tick", tick);
 }
 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function generateLink(i) {
+    var arr = new Array("http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101939&idx=1&sn=1f952299850ab67414b0bb2a084c0243",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211099024&idx=1&sn=d5ea4af913545f845d7067ce17bf5d16",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211099638&idx=1&sn=4922b1074598d898af5ce9c66054a41a",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211099803&idx=1&sn=a52e716e81ea001c34d8424379a96d90",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101970&idx=1&sn=b5d8e8a1a5dc3c6ac32d4796b5af27fd",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211100510&idx=1&sn=b634b1bd3fa39bd9c8f0f8151cdc05d0",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211100594&idx=1&sn=81f33c7ec570183c4c700e96f7a9a60f",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211100730&idx=1&sn=3f09ec00fff538680f8a5cc95b766765",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211102072&idx=1&sn=aa20df6fc4a2b876e311c23480145f0a",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211100917&idx=1&sn=fc3a9b9bbe3033f0c2cef855f4842916",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211100981&idx=1&sn=42be74b1b51166f55de5b3fafc20e373",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101018&idx=1&sn=2a1b70e9bb059cb0cbd493314e32af35",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211102119&idx=1&sn=12c67d624daf3e09078e61ab7971d60b",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101289&idx=1&sn=a6b46e2176e6cf21b460ebf0a622079a",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101321&idx=1&sn=3249807af2e3b270c2393cd9196cd2e7",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101349&idx=1&sn=17bed4fc9b4ffbc9b566bc01771d479c",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211102164&idx=1&sn=803f63e055304f5d3de80c2842de74f2",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101432&idx=1&sn=b1489d0008febd6d2cd07263df4a1a5e",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101462&idx=1&sn=90aff91789e21c02a0dd8e595fd35150",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101515&idx=1&sn=ab4c7258021857b9a230dc557e02c2bb",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211102193&idx=1&sn=7cfce93bea2255bc57d5cfd199be73ae",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101635&idx=1&sn=35acc9ac9f6cc2dd148e4d5a44b15f68",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101671&idx=1&sn=feafe8a9f38601c8640991c0e3263a61",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101714&idx=1&sn=96dd8a656472d1d3d1e5b0ecbeffaf93",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211102216&idx=1&sn=16df8ece5abaab93c7d0b22b37d1deeb",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101757&idx=1&sn=d89536ba54675ce59d3ca61ea00c6f03",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101790&idx=1&sn=cf0cbb44666056f7effd1286de4ed48f",
+                        "http://mp.weixin.qq.com/s?__biz=MjM5MTE0MzUyMQ==&mid=211101815&idx=1&sn=5e01384ce54b10377998aeaf23382643");
+    return arr[getRandomInt(0,6)*4+i];
+}
+
 function gameover() {
 
-    var t = "你能让元宵飞出屏幕吗";
-    if (score>50) {
-        t = "你顶元宵的功力已经略有小成";
+    var t = "接下来试试让元宵冲上云霄吧！";
+    var tt = 0;
+    if (score>100) {
+        t = "你顶元宵的功力已经略有小成！";
+        tt = 1;
     }
-    if (score>200) {
-        t = "你顶元宵的功力已经炉火纯青";
+    if (score>300) {
+        t = "你顶元宵的功力已经炉火纯青！";
+        tt = 2;
     }
-    if (score>500) {
-        t = "你顶元宵的功力已经出神入化";
-    }
-    if (score>1000) {
-        t = "中国足球未来的希望！";
-    }    
+    if (score>600) {
+        t = "你顶元宵的功力已经出神入化！";
+        tt = 3;
+    } 
+
+    var link = generateLink(tt);
 
     box = new createjs.Bitmap(loader.getResult("box"));
     box.desireX=w*4/5;
@@ -145,7 +184,7 @@ function gameover() {
     redirectButton.regY=redirectButton.image.height / 2;
     redirectButton.x=box.x+box.image.width/3;
     redirectButton.y=box.y+box.image.height/3;     
-    redirectButton.addEventListener("click", function(event) { window.location.replace("http://www.google.com"); });  
+    redirectButton.addEventListener("click", function(event) { window.location.replace(link); });  
 
     stage.addChild(box, boxText, tryAgainButton, redirectButton);
 
