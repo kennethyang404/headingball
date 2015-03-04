@@ -97,19 +97,19 @@ function handleComplete() {
 function gameover() {
 
     var t = "你能让元宵飞出屏幕吗";
-    if (score>100) {
+    if (score>50) {
         t = "顶得漂亮";
     }
-    if (score>300) {
+    if (score>150) {
         t = "你顶元宵的功力已经略有小成";
     }
-    if (score>600) {
+    if (score>300) {
         t = "你顶元宵的功力已经炉火纯青";
     }
-    if (score>1000) {
+    if (score>600) {
         t = "我打赌你在好友里一定是顶得最高的";
     }
-    if (score>5000) {
+    if (score>1000) {
         t = "中国足球未来的希望！";
     }    
 
@@ -187,8 +187,8 @@ function move() {
             game_ended = true;
             ball.vx = ball.initV / 3;
             ball.vy = ball.initV / 2;
-            superball.visible = false;
-            ball.visible = true;
+            superball.visible = true;
+            ball.visible = false;
         } else {
             if (sheep.y>sheep.criticalH) {
                 ball.state="superUp";
@@ -232,7 +232,9 @@ function drop() {
     if (ball.y<sheep.y+20) {
         ball.y-=ball.vy;
         ball.x+=ball.vx;
-        ball.vy-=ball.a;    
+        ball.vy-=ball.a;
+        superball.x=ball.x;    
+        superball.y=ball.y;
     } else {
         dropped=true;
     }
