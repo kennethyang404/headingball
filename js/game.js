@@ -238,7 +238,7 @@ function drop() {
 }
 
 function updateScore() {
-    if (score_updateframes < 4) {
+    if (score_updateframes < 3) {
         score_updateframes += 1;
     } else {
         score_updateframes = 0;
